@@ -1,0 +1,89 @@
+--- julia/Make.inc	2014-10-21 15:12:21.000000000 -0700
++++ patch-files/Make.inc	2014-11-17 20:10:21.729679538 -0800
+@@ -13,16 +13,16 @@
+ USE_SYSTEM_LLVM=0
+ USE_SYSTEM_LIBUNWIND=0
+ USE_SYSTEM_PCRE=0
+-USE_SYSTEM_LIBM=0
++USE_SYSTEM_LIBM=1
+ USE_SYSTEM_OPENLIBM=0
+ UNTRUSTED_SYSTEM_LIBM=0
+ USE_SYSTEM_OPENSPECFUN=0
+ USE_SYSTEM_DSFMT=0
+-USE_SYSTEM_BLAS=0
+-USE_SYSTEM_LAPACK=0
+-USE_SYSTEM_FFTW=0
+-USE_SYSTEM_GMP=0
+-USE_SYSTEM_MPFR=0
++USE_SYSTEM_BLAS=1
++USE_SYSTEM_LAPACK=1
++USE_SYSTEM_FFTW=1
++USE_SYSTEM_GMP=1
++USE_SYSTEM_MPFR=1
+ USE_SYSTEM_ARPACK=0
+ USE_SYSTEM_SUITESPARSE=0
+ USE_SYSTEM_ZLIB=0
+@@ -32,13 +32,13 @@
+ USE_SYSTEM_UTF8PROC=0
+ 
+ # Link to the LLVM shared library
+-USE_LLVM_SHLIB = 0
++USE_LLVM_SHLIB = 1
+ 
+ ## Settings for various Intel tools
+ # Set to 1 to use MKL
+-USE_INTEL_MKL ?= 0
++USE_INTEL_MKL ?= 1
+ # Set to 1 to use MKL FFT
+-USE_INTEL_MKL_FFT ?= 0
++USE_INTEL_MKL_FFT ?= 1
+ # Set to 1 to use Intel LIBM
+ USE_INTEL_LIBM ?= 0
+ # Set to 1 to enable profiling with Intel VTune Amplifier
+@@ -56,7 +56,8 @@
+ USE_LIBCPP = 0
+ 
+ # Prevent picking up $ARCH from the environment variables
+-ARCH=
++ARCH=x86_64
++MARCH=corei7-avx
+ 
+ # we include twice to pickup user definitions better
+ ifeq (exists, $(shell [ -e $(JULIAHOME)/Make.user ] && echo exists ))
+@@ -81,7 +82,7 @@
+ endif
+ 
+ # Directories where said libraries get installed to
+-prefix ?= $(abspath julia-$(JULIA_COMMIT))
++prefix ?= ROLLINSTALL
+ bindir = $(prefix)/bin
+ libdir = $(prefix)/lib
+ private_libdir = $(libdir)/julia
+@@ -385,7 +386,6 @@
+ endif
+ else
+ XC_HOST := $(ARCH)$(shell echo $(BUILD_MACHINE) | sed "s/[^-]*\(.*\)$$/\1/")
+-MARCH = $(ARCH)
+ endif
+ 
+ ifneq ($(MARCH),)
+@@ -637,16 +637,16 @@
+ 
+ ifeq ($(USE_INTEL_LIBM), 1)
+ USE_SYSTEM_LIBM = 1
+-LIBM = -L$(MKLROOT)/../compiler/lib/intel64 -limf
++LIBM = -L$(MKLHOME)/../compiler/lib/intel64 -limf
+ LIBMNAME = libimf
+ endif
+ 
+ ifeq ($(USE_INTEL_MKL), 1)
+ ifeq ($(USE_BLAS64), 1)
+ export MKL_INTERFACE_LAYER := ILP64
+-MKLLIB = $(MKLROOT)/lib/intel64
++MKLLIB = $(MKLHOME)/lib/intel64
+ else
+-MKLLIB = $(MKLROOT)/lib/ia32
++MKLLIB = $(MKLHOME)/lib/ia32
+ endif
+ USE_SYSTEM_BLAS=1
+ USE_SYSTEM_LAPACK=1

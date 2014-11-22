@@ -1,0 +1,4 @@
+#%Module1.0
+setenv JULIAHOME /opt/julia
+prepend-path PATH /opt/julia/bin
+prepend-path LD_LIBRARY_PATH /opt/julia/lib

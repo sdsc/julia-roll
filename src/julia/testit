@@ -1,0 +1,7 @@
+#!/bin/sh
+targets=`ls *.jl|sed 's/.jl//'`
+for target in $targets;do
+if test $target != arpack; then
+make $target
+fi
+done
