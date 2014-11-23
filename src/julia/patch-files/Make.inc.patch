@@ -1,5 +1,5 @@
 --- julia/Make.inc	2014-10-21 15:12:21.000000000 -0700
-+++ patch-files/Make.inc	2014-11-17 20:10:21.729679538 -0800
++++ patch-files/Make.inc	2014-11-22 19:47:51.376343789 -0800
 @@ -13,16 +13,16 @@
  USE_SYSTEM_LLVM=0
  USE_SYSTEM_LIBUNWIND=0
@@ -67,23 +67,3 @@
  endif
  
  ifneq ($(MARCH),)
-@@ -637,16 +637,16 @@
- 
- ifeq ($(USE_INTEL_LIBM), 1)
- USE_SYSTEM_LIBM = 1
--LIBM = -L$(MKLROOT)/../compiler/lib/intel64 -limf
-+LIBM = -L$(MKLHOME)/../compiler/lib/intel64 -limf
- LIBMNAME = libimf
- endif
- 
- ifeq ($(USE_INTEL_MKL), 1)
- ifeq ($(USE_BLAS64), 1)
- export MKL_INTERFACE_LAYER := ILP64
--MKLLIB = $(MKLROOT)/lib/intel64
-+MKLLIB = $(MKLHOME)/lib/intel64
- else
--MKLLIB = $(MKLROOT)/lib/ia32
-+MKLLIB = $(MKLHOME)/lib/ia32
- endif
- USE_SYSTEM_BLAS=1
- USE_SYSTEM_LAPACK=1
