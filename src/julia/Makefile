@@ -64,22 +64,13 @@ include Rules.mk
 include $(SDSCDEVEL)/Pull.mk
 include $(SDSCDEVEL)/Rules.mk
 
-LICENSE_FILES = $(SOURCE_DIR)/LICENSE
+$(NAME).spec: DESCRIPTION
 
-$(NAME).spec: DESCRIPTION LICENSE
-
-DESCRIBE_PKG=
 
 DESCRIPTION:
 	( \
 	  $(DESCRIBE_PKG) \
 	) > $@
-
-LICENSE: $(SRC_DIRS)
-	if ! grep -q "GNU GENERAL PUBLIC LICENSE" $(LICENSE_FILES); then \
-	  exit 2; \
-	fi
-	echo GPL > $@
 
 build: $(SRC_DIRS)
 	patch $(SOURCE_DIR)/Make.inc patch-files/Make.inc.patch
@@ -108,4 +99,4 @@ install::
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
-	rm -rf $(SOURCE_DIR) DESCRIPTION LICENSE
+	rm -rf $(SOURCE_DIR) DESCRIPTION
