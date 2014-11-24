@@ -73,9 +73,12 @@ DESCRIPTION:
 	) > $@
 
 build: $(SRC_DIRS)
+	cp  $(SOURCE_DIR)/Make.inc $(SOURCE_DIR)/test
 	patch $(SOURCE_DIR)/Make.inc patch-files/Make.inc.patch
 	patch $(SOURCE_DIR)/test/Makefile patch-files/Makefile.test.patch
+	patch $(SOURCE_DIR)/test/Make.inc patch-files/Make2.inc.patch
 	perl -pi -e "s#ROLLINSTALL#$(PKGROOT)#g" $(SOURCE_DIR)/Make.inc
+	perl -pi -e "s#ROLLINSTALL#$(PKGROOT)#g" $(SOURCE_DIR)/test/Make.inc
 	( \
           . /etc/profile.d/modules.sh; \
           $(MODULE_LOAD_MKL); \
@@ -95,8 +98,7 @@ install::
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) install; \
           cp deps/llvm-3.3/build_Release/Release/lib/* $(ROOT)/$(PKGROOT)/lib; \
-          cp -r test/* $(ROOT)/$(PKGROOT)/test; \
-          cp -r Make.inc $(ROOT)/$(PKGROOT)/test \
+          cp -r test/* $(ROOT)/$(PKGROOT)/test \
 	)
 	$(PKGROOT_BIND_UMOUNT) $(PKGROOT)
 	@echo "::: Package $(NAME) install complete :::"
