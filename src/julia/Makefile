@@ -85,7 +85,8 @@ build: $(SRC_DIRS)
 	@echo "::: Package $(NAME) build complete :::"
 	
 install::
-	$(BIND_MOUNT) $(ROOT)/$(PKGROOT) $(PKGROOT)
+	mkdir -p $(ROOT)/$(PKGROOT)
+	$(PKGROOT_BIND_MOUNT)
 	( \
 	   mkdir -p $(ROOT)/$(PKGROOT)/test; \
           . /etc/profile.d/modules.sh; \
@@ -97,7 +98,7 @@ install::
           cp -r test/* $(ROOT)/$(PKGROOT)/test; \
           cp -r Make.inc $(ROOT)/$(PKGROOT)/test \
 	)
-	$(BIND_UMOUNT) $(PKGROOT)
+	$(PKGROOT_BIND_UMOUNT) $(PKGROOT)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
