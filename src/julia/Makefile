@@ -85,17 +85,19 @@ build: $(SRC_DIRS)
 	@echo "::: Package $(NAME) build complete :::"
 	
 install::
-	mkdir -p $(ROOT)/$(PKGROOT)/test
+	$(BIND_MOUNT) $(ROOT)/$(PKGROOT) $(PKGROOT)
 	( \
+	   mkdir -p $(ROOT)/$(PKGROOT)/test; \
           . /etc/profile.d/modules.sh; \
           $(MODULE_LOAD_MKL); \
-          cp -r testit $(ROOT)/$(PKGROOT)/test; \
+          cp -r testit $(PKGROOT)/test; \
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) install; \
           cp deps/llvm-3.3/build_Release/Release/lib/* $(ROOT)/$(PKGROOT)/lib; \
           cp -r test/* $(ROOT)/$(PKGROOT)/test; \
           cp -r Make.inc $(ROOT)/$(PKGROOT)/test \
 	)
+	$(BIND_UMOUNT) $(PKGROOT)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
