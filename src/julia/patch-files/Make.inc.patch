@@ -1,6 +1,6 @@
---- julia/Make.inc	2014-10-21 15:12:21.000000000 -0700
-+++ patch-files/Make.inc	2014-11-22 19:47:51.376343789 -0800
-@@ -13,16 +13,16 @@
+--- Make.inc	2015-08-17 17:49:18.000000000 -0700
++++ patch-files/Make.inc	2015-08-17 17:50:46.000000000 -0700
+@@ -20,16 +20,16 @@
  USE_SYSTEM_LLVM=0
  USE_SYSTEM_LIBUNWIND=0
  USE_SYSTEM_PCRE=0
@@ -23,7 +23,7 @@
  USE_SYSTEM_ARPACK=0
  USE_SYSTEM_SUITESPARSE=0
  USE_SYSTEM_ZLIB=0
-@@ -32,13 +32,13 @@
+@@ -39,13 +39,13 @@
  USE_SYSTEM_UTF8PROC=0
  
  # Link to the LLVM shared library
@@ -40,7 +40,7 @@
  # Set to 1 to use Intel LIBM
  USE_INTEL_LIBM ?= 0
  # Set to 1 to enable profiling with Intel VTune Amplifier
-@@ -56,7 +56,8 @@
+@@ -63,7 +63,8 @@
  USE_LIBCPP = 0
  
  # Prevent picking up $ARCH from the environment variables
@@ -50,7 +50,7 @@
  
  # we include twice to pickup user definitions better
  ifeq (exists, $(shell [ -e $(JULIAHOME)/Make.user ] && echo exists ))
-@@ -81,7 +82,7 @@
+@@ -88,7 +89,7 @@
  endif
  
  # Directories where said libraries get installed to
@@ -59,7 +59,16 @@
  bindir = $(prefix)/bin
  libdir = $(prefix)/lib
  private_libdir = $(libdir)/julia
-@@ -385,7 +386,6 @@
+@@ -98,7 +99,7 @@
+ sysconfdir = $(prefix)/etc
+ 
+ # Directories where things get built into
+-build_prefix = $(JULIAHOME)/usr
++build_prefix = $(JULIAHOME)
+ build_bindir = $(build_prefix)/bin
+ build_libdir = $(build_prefix)/lib
+ build_private_libdir = $(build_prefix)/lib/julia
+@@ -400,7 +401,6 @@
  endif
  else
  XC_HOST := $(ARCH)$(shell echo $(BUILD_MACHINE) | sed "s/[^-]*\(.*\)$$/\1/")

@@ -1,9 +1,10 @@
---- julia/test/Makefile	2014-10-21 15:04:44.000000000 -0700
-+++ patch-files/Makefile	2014-11-19 14:15:33.621484246 -0800
+--- Makefile	2015-08-17 17:52:45.000000000 -0700
++++ patch-files/Makefile	2015-08-17 17:54:14.000000000 -0700
 @@ -1,5 +1,5 @@
- JULIAHOME = $(abspath ..)
+-JULIAHOME = $(abspath ..)
 -include ../Make.inc
++JULIAHOME = ROLLINSTALL
 +include Make.inc
  
  TESTS = all core keywordargs numbers strings unicode collections hashing	\
- 	remote iobuffer arrayops reduce reducedim \
+ 	remote iobuffer arrayops reduce reducedim intfuncs \
