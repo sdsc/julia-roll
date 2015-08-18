@@ -1,4 +1,7 @@
 #%Module1.0
+module-whatis "julia dynamic programming language"
+module-whatis "Version: VERSION"
 setenv JULIAHOME /opt/julia
 prepend-path PATH /opt/julia/bin
 prepend-path LD_LIBRARY_PATH /opt/julia/lib
+module load gnu mkl
