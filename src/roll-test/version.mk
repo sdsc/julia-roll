@@ -1,6 +1,6 @@
-NAME       = julia-roll-test
+NAME       = sdsc-julia-roll-test
 VERSION    = 1
-RELEASE    = 0
+RELEASE    = 1
 PKGROOT    = /root/rolltests
 
 RPM.EXTRAS = AutoReq:No
