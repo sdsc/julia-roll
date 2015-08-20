@@ -1,14 +1,12 @@
 PACKAGE     = julia
-CATEGORY    = applications
+CATEGORY    = compilers
 
-NAME        = $(PACKAGE)-modules_$(COMPILERNAME)
-RELEASE     = 8
-PKGROOT     = /opt/modulefiles/$(CATEGORY)/.$(COMPILERNAME)/$(PACKAGE)
+NAME        = sdsc-$(PACKAGE)-modules
+RELEASE     = 0
+PKGROOT     = /opt/modulefiles/$(CATEGORY)/$(PACKAGE)
 
 VERSION_SRC = $(REDHAT.ROOT)/src/$(PACKAGE)/version.mk
 VERSION_INC = version.inc
 include $(VERSION_INC)
-
-VERSION_ADD = 2.1.5
 
 RPM.EXTRAS  = AutoReq:No

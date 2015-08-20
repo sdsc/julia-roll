@@ -19,25 +19,24 @@ if($appliance =~ /$installedOnAppliancesPattern/) {
 } else {
   ok(! $isInstalled, 'julia not installed');
 }
+
 SKIP: {
 
-  skip 'julia not installed', 4 if ! $isInstalled;
-  SKIP: {
-    skip 'no julia run test written', 1;
+  my @tests = `/bin/ls /opt/julia/test/*.jl 2>&1`;
+  skip 'julia not installed', 3 + int(@tests) if ! $isInstalled;
+  foreach my $test(@tests) {
+    chomp($test);
+    $test =~ s#.*/##;
+    $test =~ s#\.jl##;
+    $output = `module load julia; cd /opt/julia/test; make $test 2>&1`;
+    like($output, qr/SUCCESS/, "julia $test test");
   }
-  `/bin/ls /opt/modulefiles/applications/julia/[0-9]* 2>&1`;
+  `/bin/ls /opt/modulefiles/compilers/julia/[0-9]* 2>&1`;
   ok($? == 0, 'julia module installed');
-  `/bin/ls /opt/modulefiles/applications/julia/.version.[0-9]* 2>&1`;
+  `/bin/ls /opt/modulefiles/compilers/julia/.version.[0-9]* 2>&1`;
   ok($? == 0, 'julia version module installed');
-  ok(-l '/opt/modulefiles/applications/julia/.version',
+  ok(-l '/opt/modulefiles/compilers/julia/.version',
      'julia version module link created');
-}
-$packageHome = '/opt/julia';
-SKIP: {
-  skip 'julia not installed', 1 if ! -d $packageHome;
-  `pwd=\`pwd\`;module load julia; cd /opt/julia/test; bash testit> \$pwd/$TESTFILE 2>&1`;
-  ok(`grep -c "SUCCESS" $TESTFILE` == 54, 'julia works');
-  `rm -f $TESTFILE`;
 }
 
 `rm -fr $TESTFILE*`;

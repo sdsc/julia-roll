@@ -59,28 +59,35 @@
 
 REDHAT.ROOT = $(CURDIR)/../../
 
+ROLLCOMPILER = gnu
+COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
+
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 include $(SDSCDEVEL)/Pull.mk
 include $(SDSCDEVEL)/Rules.mk
 
-$(NAME).spec: DESCRIPTION
-
+$(NAME).spec: DESCRIPTION LICENSE
 
 DESCRIPTION:
 	( \
-	  $(DESCRIBE_PKG) \
+	  $(DESCRIBE_PKG); \
+	  $(DESCRIBE_CC); \
+	  $(DESCRIBE_MKL) \
 	) > $@
 
+LICENSE: $(SRC_DIRS)
+	$(CHECK_LICENSE_FILES)
+	echo MIT > $@
+
 build: $(SRC_DIRS)
-	cp  $(SOURCE_DIR)/Make.inc $(SOURCE_DIR)/test
 	patch $(SOURCE_DIR)/Make.inc patch-files/Make.inc.patch
-	patch $(SOURCE_DIR)/test/Makefile patch-files/Makefile.test.patch
-	patch $(SOURCE_DIR)/test/Make.inc patch-files/Make2.inc.patch
 	perl -pi -e "s#ROLLINSTALL#$(PKGROOT)#g" $(SOURCE_DIR)/Make.inc
-	perl -pi -e "s#ROLLINSTALL#$(PKGROOT)#g" $(SOURCE_DIR)/test/Make.inc
+	cp  $(SOURCE_DIR)/Make.inc $(SOURCE_DIR)/test
+	patch $(SOURCE_DIR)/test/Makefile patch-files/Makefile.test.patch
+	perl -pi -e "s#ROLLINSTALL#$(PKGROOT)#g" $(SOURCE_DIR)/test/Makefile
 	( \
-          . /etc/profile.d/modules.sh; \
+	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MKL); \
 	  cd $(SOURCE_DIR); \
 	  $(MAKE); \
@@ -88,20 +95,19 @@ build: $(SRC_DIRS)
 	@echo "::: Package $(NAME) build complete :::"
 	
 install::
-	mkdir -p $(ROOT)/$(PKGROOT)
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)/{lib,test}
 	$(PKGROOT_BIND_MOUNT)
 	( \
-	   mkdir -p $(ROOT)/$(PKGROOT)/test; \
-          . /etc/profile.d/modules.sh; \
+	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MKL); \
-          cp -r testit $(PKGROOT)/test; \
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) install; \
-          cp deps/llvm-3.3/build_Release/Release/lib/* $(ROOT)/$(PKGROOT)/lib; \
-          cp -r test/* $(ROOT)/$(PKGROOT)/test \
+	  cp deps/llvm-3.3/build_Release/Release/lib/* $(ROOT)/$(PKGROOT)/lib; \
+	  cp -r test/* $(ROOT)/$(PKGROOT)/test \
 	)
-	$(PKGROOT_BIND_UMOUNT) $(PKGROOT)
+	$(PKGROOT_BIND_UMOUNT)
+	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
-	rm -rf $(SOURCE_DIR) DESCRIPTION
+	rm -rf $(SOURCE_DIR) DESCRIPTION LICENSE
