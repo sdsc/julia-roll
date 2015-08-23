@@ -85,6 +85,8 @@ build: $(SRC_DIRS)
 	perl -pi -e "s#ROLLINSTALL#$(PKGROOT)#g" $(SOURCE_DIR)/Make.inc
 	cp  $(SOURCE_DIR)/Make.inc $(SOURCE_DIR)/test
 	patch $(SOURCE_DIR)/test/Makefile patch-files/Makefile.test.patch
+	patch $(SOURCE_DIR)/test/math.jl patch-files/math.jl.patch
+	patch $(SOURCE_DIR)/test/unicode.jl patch-files/unicode.jl.patch
 	perl -pi -e "s#ROLLINSTALL#$(PKGROOT)#g" $(SOURCE_DIR)/test/Makefile
 	( \
 	  $(MODULE_LOAD_CC); \
@@ -95,15 +97,15 @@ build: $(SRC_DIRS)
 	@echo "::: Package $(NAME) build complete :::"
 	
 install::
-	mkdir -p -m 755 $(ROOT)/$(PKGROOT)/{lib,test}
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	$(PKGROOT_BIND_MOUNT)
 	( \
 	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MKL); \
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) install; \
-	  cp deps/llvm-3.3/build_Release/Release/lib/* $(ROOT)/$(PKGROOT)/lib; \
-	  cp -r test/* $(ROOT)/$(PKGROOT)/test \
+	  cp -r deps/llvm-3.3/build_Release/Release/lib $(ROOT)/$(PKGROOT)/; \
+	  cp -r examples test $(ROOT)/$(PKGROOT)/ \
 	)
 	$(PKGROOT_BIND_UMOUNT)
 	$(INSTALL_LICENSE_FILES)
