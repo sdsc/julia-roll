@@ -88,9 +88,9 @@ build: $(SRC_DIRS)
 	perl -pi -e "s!ROLLPREFIX!$(REDHAT.ROOT)/src/julia!g" $(SOURCE_DIR)/deps/llvm.mk
 	perl -pi -e "s!SOURCEDIR!$(SOURCE_DIR)!g" $(SOURCE_DIR)/deps/llvm.mk
 	( \
+          $(MODULE_LOAD_PYTHON); \
 	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MKL); \
-          $(MODULE_LOAD_PYTHON); \
 	  cd $(SOURCE_DIR); \
           contrib/download_cmake.sh; \
 	  $(MAKE); \
@@ -100,12 +100,12 @@ build: $(SRC_DIRS)
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
+          $(MODULE_LOAD_PYTHON); \
 	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MKL); \
 	  cd $(SOURCE_DIR); \
-	  $(MAKE) install; \
-	  cp -r deps/llvm-3.3/build_Release/Release/lib $(ROOT)/$(PKGROOT)/; \
-	  cp -r examples test $(ROOT)/$(PKGROOT)/ \
+	  $(MAKE) DESTDIR=$(ROOT)/$(PKGROOT) install; \
+	  cp -r test $(ROOT)/$(PKGROOT)/ \
 	)
 	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
