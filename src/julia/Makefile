@@ -88,7 +88,7 @@ build: $(SRC_DIRS)
 	perl -pi -e "s!ROLLPREFIX!$(REDHAT.ROOT)/src/julia!g" $(SOURCE_DIR)/deps/llvm.mk
 	perl -pi -e "s!SOURCEDIR!$(SOURCE_DIR)!g" $(SOURCE_DIR)/deps/llvm.mk
 	( \
-          $(MODULE_LOAD_PYTHON); \
+          module load python; \
 	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MKL); \
 	  cd $(SOURCE_DIR); \
@@ -100,7 +100,7 @@ build: $(SRC_DIRS)
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
-          $(MODULE_LOAD_PYTHON); \
+          module load python; \
 	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MKL); \
 	  cd $(SOURCE_DIR); \
