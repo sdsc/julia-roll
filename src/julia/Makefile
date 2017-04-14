@@ -90,8 +90,8 @@ build: $(SRC_DIRS)
 	patch $(SOURCE_DIR)/base/sysimg.jl patch-files/sysimg.jl.patch
 	patch $(SOURCE_DIR)/base/filesystem.jl patch-files/filesystem.jl.patch
 	patch $(SOURCE_DIR)/base/libuv.jl patch-files/libuv.jl.patch
-	perl -pi -e "s!ROLLPREFIX!$(REDHAT.ROOT)/src/julia!g" $(SOURCE_DIR)/deps/llvm.mk
 	perl -pi -e "s!SOURCEDIR!$(SOURCE_DIR)!g" $(SOURCE_DIR)/deps/llvm.mk
+	perl -pi -e "s!ROLLPREFIX!$(PWD)/src/julia!g" $(SOURCE_DIR)/deps/llvm.mk
 	( \
           module load python; \
 	  $(MODULE_LOAD_CC); \
