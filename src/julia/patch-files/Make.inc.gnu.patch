@@ -1,14 +1,5 @@
 --- julia-0.6.0/Make.inc	2017-04-12 14:30:53.000000000 -0700
-+++ patch-files/Make.inc	2017-04-13 10:59:52.000000000 -0700
-@@ -25,7 +25,7 @@
- # Use libraries available on the system instead of building them
- USE_SYSTEM_LLVM:=0
- USE_SYSTEM_LIBUNWIND:=0
--USE_SYSTEM_PCRE:=0
-+USE_SYSTEM_PCRE:=1
- USE_SYSTEM_LIBM:=0
- USE_SYSTEM_OPENLIBM:=0
- UNTRUSTED_SYSTEM_LIBM:=0
++++ patch-files/Make.inc	2017-04-14 08:32:41.000000000 -0700
 @@ -51,11 +51,11 @@
  
  ## Settings for various Intel tools
