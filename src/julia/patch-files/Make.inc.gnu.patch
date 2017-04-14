@@ -1,5 +1,5 @@
 --- julia-0.6.0/Make.inc	2017-04-12 14:30:53.000000000 -0700
-+++ patch-files/Make.inc	2017-04-14 08:32:41.000000000 -0700
++++ patch-files/Make.inc	2017-04-14 15:20:45.000000000 -0700
 @@ -51,11 +51,11 @@
  
  ## Settings for various Intel tools
@@ -15,3 +15,80 @@
  # Set to 1 to enable profiling with Intel VTune Amplifier
  USE_INTEL_JITEVENTS ?= 0
  # Set to 1 to use Intel C, C++, and FORTRAN compilers
+@@ -91,30 +91,30 @@
+ # Prevent picking up $ARCH from the environment variables
+ ARCH:=
+ 
+-# pick up BUILDROOT from O= if it isn't already set (from recursive make)
+-ifeq ($(BUILDROOT),)
++# pick up JULIABUILDROOT from O= if it isn't already set (from recursive make)
++ifeq ($(JULIABUILDROOT),)
+ ifeq ("$(origin O)", "command line")
+-  BUILDROOT := $(abspath $O)
+-  BUILDDIR := $(abspath $(BUILDROOT)/$(shell $(JULIAHOME)/contrib/relative_path.sh $(JULIAHOME) $(SRCDIR)))
+-  $(info $(shell printf '\033[32;1mBuilding into $(BUILDROOT)\033[0m')) # use printf to expand the escape sequences
++  JULIABUILDROOT := $(abspath $O)
++  BUILDDIR := $(abspath $(JULIABUILDROOT)/$(shell $(JULIAHOME)/contrib/relative_path.sh $(JULIAHOME) $(SRCDIR)))
++  $(info $(shell printf '\033[32;1mBuilding into $(JULIABUILDROOT)\033[0m')) # use printf to expand the escape sequences
+ else
+-  BUILDROOT:=$(JULIAHOME)
++  JULIABUILDROOT:=$(JULIAHOME)
+ endif
+ endif
+-export BUILDROOT
++export JULIABUILDROOT
+ unexport O
+ 
+ # Make sure the user didn't try to specify a path that will confuse the shell / make
+ METACHARACTERS := ][?*{}() $$%:;&|!\#,\\`\":
+-ifneq (,$(findstring ',$(value BUILDROOT)))
++ifneq (,$(findstring ',$(value JULIABUILDROOT)))
+ $(error cowardly refusing to build into directory with a single-quote in the path)
+ endif
+ ifneq (,$(findstring ',$(value JULIAHOME)))
+ $(error cowardly refusing to build from source directory with a single-quote in the path)
+ endif
+-ifneq (,$(shell echo '$(value BUILDROOT)' | grep '[$(METACHARACTERS)]'))
++ifneq (,$(shell echo '$(value JULIABUILDROOT)' | grep '[$(METACHARACTERS)]'))
+ $(error cowardly refusing to build into directory with a shell-metacharacter in the path\
+-    (got: $(value BUILDROOT)))
++    (got: $(value JULIABUILDROOT)))
+ endif
+ ifneq (,$(shell echo '$(value JULIAHOME)' | grep '[$(METACHARACTERS)]'))
+ $(error cowardly refusing to build from source directory with a shell-metacharacter in the path\
+@@ -122,12 +122,12 @@
+ endif
+ 
+ # we include twice to pickup user definitions better
+-# include from JULIAHOME first so that BUILDROOT can override
++# include from JULIAHOME first so that JULIABUILDROOT can override
+ ifeq (exists, $(shell [ -e $(JULIAHOME)/Make.user ] && echo exists ))
+ include $(JULIAHOME)/Make.user
+ endif
+-ifeq (exists, $(shell [ -e $(BUILDROOT)/Make.user ] && echo exists ))
+-include $(BUILDROOT)/Make.user
++ifeq (exists, $(shell [ -e $(JULIABUILDROOT)/Make.user ] && echo exists ))
++include $(JULIABUILDROOT)/Make.user
+ endif
+ 
+ # disable automatic Makefile rules
+@@ -189,7 +189,7 @@
+ sysconfdir := $(prefix)/etc
+ 
+ # Directories where things get built into
+-build_prefix := $(BUILDROOT)/usr
++build_prefix := $(JULIABUILDROOT)/usr
+ build_staging := $(build_prefix)-staging
+ build_bindir := $(build_prefix)/bin
+ build_depsbindir := $(build_prefix)/tools
+@@ -515,8 +515,8 @@
+ ifeq (exists, $(shell [ -e $(JULIAHOME)/Make.user ] && echo exists ))
+ include $(JULIAHOME)/Make.user
+ endif
+-ifeq (exists, $(shell [ -e $(BUILDROOT)/Make.user ] && echo exists ))
+-include $(BUILDROOT)/Make.user
++ifeq (exists, $(shell [ -e $(JULIABUILDROOT)/Make.user ] && echo exists ))
++include $(JULIABUILDROOT)/Make.user
+ endif
+ 
+ ifneq ($(CC_BASE)$(CXX_BASE),$(shell echo $(CC) | cut -d' ' -f1)$(shell echo $(CXX) | cut -d' ' -f1))

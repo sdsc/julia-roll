@@ -84,7 +84,12 @@ LICENSE: $(SRC_DIRS)
 
 build: $(SRC_DIRS)
 	patch $(SOURCE_DIR)/Make.inc patch-files/Make.inc.$(COMPILERNAME).patch
+	patch $(SOURCE_DIR)/Makefile patch-files/Makefile.patch
 	patch $(SOURCE_DIR)/deps/llvm.mk patch-files/llvm.mk.patch
+	patch $(SOURCE_DIR)/base/pcre.jl patch-files/pcre.jl.patch
+	patch $(SOURCE_DIR)/base/sysimg.jl patch-files/sysimg.jl
+	patch $(SOURCE_DIR)/base/filesystem.jl patch-files/filesystem.jl
+	patch $(SOURCE_DIR)/base/libuv.jl patch-files/libuv.jl
 	perl -pi -e "s!ROLLPREFIX!$(REDHAT.ROOT)/src/julia!g" $(SOURCE_DIR)/deps/llvm.mk
 	perl -pi -e "s!SOURCEDIR!$(SOURCE_DIR)!g" $(SOURCE_DIR)/deps/llvm.mk
 	( \

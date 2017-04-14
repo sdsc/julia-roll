@@ -1,0 +1,11 @@
+--- julia-0.6.0/base/libc.jl	2017-04-12 14:30:53.000000000 -0700
++++ patch-files/libc.jl	2017-04-14 15:39:08.000000000 -0700
+@@ -10,7 +10,7 @@
+     export GetLastError, FormatMessage
+ end
+ 
+-include(string(length(Core.ARGS)>=2?Core.ARGS[2]:"","errno_h.jl"))  # include($BUILDROOT/base/errno_h.jl)
++include(string(length(Core.ARGS)>=2?Core.ARGS[2]:"","errno_h.jl"))  # include($JULIABUILDROOT/base/errno_h.jl)
+ 
+ ## RawFD ##
+ 
