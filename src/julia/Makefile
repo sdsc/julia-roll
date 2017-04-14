@@ -100,9 +100,6 @@ build: $(SRC_DIRS)
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
-          module load python; \
-	  $(MODULE_LOAD_CC); \
-          $(MODULE_LOAD_MKL); \
 	  cd $(SOURCE_DIR); \
 	  cp -r usr/* test $(ROOT)/$(PKGROOT)/ \
 	)
