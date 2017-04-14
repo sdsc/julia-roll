@@ -104,8 +104,7 @@ install::
 	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MKL); \
 	  cd $(SOURCE_DIR); \
-	  $(MAKE) DESTDIR=$(ROOT)/$(PKGROOT) install; \
-	  cp -r test $(ROOT)/$(PKGROOT)/ \
+	  cp -r usr/* test $(ROOT)/$(PKGROOT)/ \
 	)
 	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
