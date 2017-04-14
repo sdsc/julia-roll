@@ -101,7 +101,8 @@ install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE_DIR); \
-	  cp -r usr/* test $(ROOT)/$(PKGROOT)/ \
+	  cp -r usr/* test $(ROOT)/$(PKGROOT); \
+          chmod 0755 $(ROOT)/$(PKGROOT)/test/*.jl \
 	)
 	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
