@@ -1,3 +1,8 @@
+ifndef ROLLCOMPILER
+  ROLLCOMPILER = gnu
+endif
+COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
+
 NAME           = sdsc-julia
 VERSION        = 0.6.0
 RELEASE        = 0
