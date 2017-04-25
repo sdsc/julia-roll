@@ -88,8 +88,9 @@ build: $(SRC_DIRS)
 	perl -pi -e "s!SOURCEDIR!$(SOURCE_DIR)!g" $(SOURCE_DIR)/deps/llvm.mk
 	perl -pi -e "s!ROLLPREFIX!$(PWD)!g" $(SOURCE_DIR)/deps/llvm.mk
 	( \
-          module load python; \
 	  $(MODULE_LOAD_CC); \
+          $(MODULE_LOAD_PYTHON); \
+          $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MKL); \
 	  cd $(SOURCE_DIR); \
           contrib/download_cmake.sh; \
