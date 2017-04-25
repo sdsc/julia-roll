@@ -61,6 +61,7 @@ REDHAT.ROOT = $(CURDIR)/../../
 
 ROLLCOMPILER = gnu
 COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
+ROLLPY = python
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
@@ -88,6 +89,8 @@ build: $(SRC_DIRS)
 	perl -pi -e "s!SOURCEDIR!$(SOURCE_DIR)!g" $(SOURCE_DIR)/deps/llvm.mk
 	perl -pi -e "s!ROLLPREFIX!$(PWD)!g" $(SOURCE_DIR)/deps/llvm.mk
 	( \
+          echo $(COMPILERNAME); \
+          exit; \
 	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_PYTHON); \
           $(MODULE_LOAD_CC); \
