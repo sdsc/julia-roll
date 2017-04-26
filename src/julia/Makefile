@@ -74,8 +74,8 @@ DESCRIPTION:
 	$(MODULE_LOAD_CC); \
 	( \
 	  $(DESCRIBE_PKG); \
-	  $(DESCRIBE_CC); \
           $(DESCRIBE_PYTHON); \
+	  $(DESCRIBE_CC); \
 	  $(DESCRIBE_MKL) \
 	) > $@
 
@@ -89,13 +89,12 @@ build: $(SRC_DIRS)
 	perl -pi -e "s!SOURCEDIR!$(SOURCE_DIR)!g" $(SOURCE_DIR)/deps/llvm.mk
 	perl -pi -e "s!ROLLPREFIX!$(PWD)!g" $(SOURCE_DIR)/deps/llvm.mk
 	( \
-	  $(MODULE_LOAD_CC); \
-          $(MODULE_LOAD_PYTHON); \
+          module load python; \
           $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MKL); \
 	  cd $(SOURCE_DIR); \
           contrib/download_cmake.sh; \
-	  $(MAKE) BUILDROOT=$(PWD)/$(SOURCE_DIR); \
+	  $(MAKE) -j 16 BUILDROOT=$(PWD)/$(SOURCE_DIR); \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
