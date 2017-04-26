@@ -1,6 +1,6 @@
 --- julia-0.6.0/Make.inc	2017-04-12 14:30:53.000000000 -0700
-+++ patch-files/Make.inc.gnu	2017-04-23 14:07:12.188428030 -0700
-@@ -51,11 +51,11 @@
++++ patch-files/Make.inc.gnu	2017-04-25 17:54:43.124280558 -0700
+@@ -51,9 +51,9 @@
  
  ## Settings for various Intel tools
  # Set to 1 to use MKL
@@ -10,8 +10,5 @@
 -USE_INTEL_MKL_FFT ?= 0
 +USE_INTEL_MKL_FFT ?= 1
  # Set to 1 to use Intel LIBM
--USE_INTEL_LIBM ?= 0
-+USE_INTEL_LIBM ?= 1
+ USE_INTEL_LIBM ?= 0
  # Set to 1 to enable profiling with Intel VTune Amplifier
- USE_INTEL_JITEVENTS ?= 0
- # Set to 1 to use Intel C, C++, and FORTRAN compilers
