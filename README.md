@@ -79,3 +79,12 @@ run the test scripts execute the following command(s):
 ```shell
 % /root/rolltests/julia.t 
 ```
+
+This roll source supports building with different compilers. The `ROLLCOMPILER` make variable can be used to specify the names of compiler modulefiles to use for building the software, e.g.,
+
+```shell
+make ROLLCOMPILER=intel | tee build.log
+```
+
+The build process recognizes "gnu" or "intel" as the value for the
+`ROLLCOMPILER` variable.  The default value is "gnu".
