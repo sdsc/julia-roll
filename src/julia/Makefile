@@ -89,6 +89,7 @@ build: $(SRC_DIRS)
 	perl -pi -e "s!SOURCEDIR!$(SOURCE_DIR)!g" $(SOURCE_DIR)/deps/llvm.mk
 	perl -pi -e "s!ROLLPREFIX!$(PWD)!g" $(SOURCE_DIR)/deps/llvm.mk
 	( \
+          $(call MODULE_LOAD_COMPILER, gnu, gcc); \
           $(MODULE_LOAD_PYTHON); \
           $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MKL); \
