@@ -27,8 +27,8 @@ The sdsc-roll must be installed on the build machine, since the build process
 depends on make include files provided by that roll.
 
 The roll sources assume that modulefiles provided by the SDSC gnucompiler-roll
-are available, but it will build without them as long as the environment
-variables they provide are otherwise defined.
+and python-roll are available, but it will build without them as long as the
+environment variables they provide are otherwise defined.
 
 The build process requires the MKL libraries and assumes that the MKL
 modulefile provided by the SDSC intel-roll is available.  It will build without
