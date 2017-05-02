@@ -59,8 +59,6 @@
 
 REDHAT.ROOT = $(CURDIR)/../../
 
-ROLLCOMPILER = gnu
-COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 ROLLPY = python
 
 -include $(ROCKSROOT)/etc/Rules.mk
