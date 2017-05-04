@@ -62,6 +62,8 @@ make ROLLCOMPILER=intel 2>&1 | tee build.log
 The build process recognizes "gnu" or "intel" as the value for the
 `ROLLCOMPILER` variable.  The default value is "gnu".
 
+Note that for verison 0.6.0 , compiling with the intel compiler requires at least version 2016
+
 
 ## Installation
 
