@@ -25,7 +25,7 @@ SKIP: {
   skip 'julia not installed', 4 if ! $isInstalled;
   # NOTE: the arpack test predictably blows out w/a segfault in MKL, so avoid
   # using it as a representative test.
-  $output = `module load julia; cd /opt/julia/test; julia --check-bounds=yes -f ./runtests.jl core 2>&1`;
+  $output = `module load julia; cd /opt/julia/test; julia --check-bounds=yes ./runtests.jl core 2>&1`;
   like($output, qr/SUCCESS/, "julia core test");
   `/bin/ls /opt/modulefiles/compilers/julia/[0-9]* 2>&1`;
   ok($? == 0, 'julia module installed');

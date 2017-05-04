@@ -59,8 +59,7 @@
 
 REDHAT.ROOT = $(CURDIR)/../../
 
-ROLLCOMPILER = gnu
-COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
+ROLLPY = python
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
@@ -73,6 +72,7 @@ DESCRIPTION:
 	$(MODULE_LOAD_CC); \
 	( \
 	  $(DESCRIBE_PKG); \
+          $(DESCRIBE_PYTHON); \
 	  $(DESCRIBE_CC); \
 	  $(DESCRIBE_MKL) \
 	) > $@
@@ -82,33 +82,28 @@ LICENSE: $(SRC_DIRS)
 	echo MIT > $@
 
 build: $(SRC_DIRS)
-	patch $(SOURCE_DIR)/Make.inc patch-files/Make.inc.patch
-	perl -pi -e "s#ROLLINSTALL#$(PKGROOT)#g" $(SOURCE_DIR)/Make.inc
-	cp  $(SOURCE_DIR)/Make.inc $(SOURCE_DIR)/test
-	patch $(SOURCE_DIR)/test/Makefile patch-files/Makefile.test.patch
-	patch $(SOURCE_DIR)/test/math.jl patch-files/math.jl.patch
-	patch $(SOURCE_DIR)/test/unicode.jl patch-files/unicode.jl.patch
-	perl -pi -e "s#ROLLINSTALL#$(PKGROOT)#g" $(SOURCE_DIR)/test/Makefile
+	patch $(SOURCE_DIR)/Make.inc patch-files/Make.inc.$(COMPILERNAME).patch
+	patch $(SOURCE_DIR)/deps/llvm.mk patch-files/llvm.mk.patch
+	perl -pi -e "s!SOURCEDIR!$(SOURCE_DIR)!g" $(SOURCE_DIR)/deps/llvm.mk
+	perl -pi -e "s!ROLLPREFIX!$(PWD)!g" $(SOURCE_DIR)/deps/llvm.mk
 	( \
-	  $(MODULE_LOAD_CC); \
+          $(call MODULE_LOAD_COMPILER, gnu, gcc); \
+          $(MODULE_LOAD_PYTHON); \
+          $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MKL); \
 	  cd $(SOURCE_DIR); \
-	  $(MAKE); \
+          contrib/download_cmake.sh; \
+	  $(MAKE) -j 16 BUILDROOT=$(PWD)/$(SOURCE_DIR); \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
-	$(PKGROOT_BIND_MOUNT)
 	( \
-	  $(MODULE_LOAD_CC); \
-          $(MODULE_LOAD_MKL); \
 	  cd $(SOURCE_DIR); \
-	  $(MAKE) install; \
-	  cp -r deps/llvm-3.3/build_Release/Release/lib $(ROOT)/$(PKGROOT)/; \
-	  cp -r examples test $(ROOT)/$(PKGROOT)/ \
+	  cp -r usr/* test $(ROOT)/$(PKGROOT); \
+          chmod 0755 $(ROOT)/$(PKGROOT)/test/*.jl \
 	)
-	$(PKGROOT_BIND_UMOUNT)
 	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 

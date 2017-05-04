@@ -1,15 +1,20 @@
+ifndef ROLLCOMPILER
+  ROLLCOMPILER = gnu
+endif
+COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
+
 NAME           = sdsc-julia
-VERSION        = 0.3.11
-RELEASE        = 2
+VERSION        = 0.6.0
+RELEASE        = 0
 PKGROOT        = /opt/julia
 
 SRC_SUBDIR     = julia
 
 SOURCE_NAME    = julia
 SOURCE_SUFFIX  = tar.gz
-SOURCE_VERSION = $(VERSION)_483dbf5279
+SOURCE_VERSION = $(VERSION)
 SOURCE_PKG     = $(SOURCE_NAME)-$(SOURCE_VERSION).$(SOURCE_SUFFIX)
-SOURCE_DIR     = julia
+SOURCE_DIR     = julia-$(VERSION)
 
 TAR_GZ_PKGS    = $(SOURCE_PKG)
 

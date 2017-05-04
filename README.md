@@ -1,5 +1,6 @@
 # SDSC "julia" roll
 
+
 ## Overview
 
 This roll bundles... julia 
@@ -26,8 +27,8 @@ The sdsc-roll must be installed on the build machine, since the build process
 depends on make include files provided by that roll.
 
 The roll sources assume that modulefiles provided by the SDSC gnucompiler-roll
-are available, but it will build without them as long as the environment
-variables they provide are otherwise defined.
+and python-roll are available, but it will build without them as long as the
+environment variables they provide are otherwise defined.
 
 The build process requires the MKL libraries and assumes that the MKL
 modulefile provided by the SDSC intel-roll is available.  It will build without
@@ -48,6 +49,18 @@ A successful build will create the file `julia-*.disk1.iso`.  If you built
 the roll on a Rocks frontend, proceed to the installation step. If you built the
 roll on a Rocks development appliance, you need to copy the roll to your Rocks
 frontend before continuing with installation.
+
+This roll source supports building with different compilers.
+The `ROLLCOMPILER` make variable can be used to
+specify the name of the compiler modulefile to use for building the
+software, e.g.,
+
+```shell
+make ROLLCOMPILER=intel 2>&1 | tee build.log
+```
+
+The build process recognizes "gnu" or "intel" as the value for the
+`ROLLCOMPILER` variable.  The default value is "gnu".
 
 
 ## Installation

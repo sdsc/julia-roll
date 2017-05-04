@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 ROCKS_VERSION=`cat /etc/rocks-release 2>/dev/null | awk '{print $3}'`
 DESC_CMD="git describe --match 'v${ROCKS_VERSION}' 2>/dev/null | sed \"s/v\([0-9\.]*\)-*\([0-9]*\)-*\([0-9a-z]*\)/\1 \2 \3/\""
