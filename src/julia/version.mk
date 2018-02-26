@@ -5,7 +5,7 @@ COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
 NAME           = sdsc-julia
 VERSION        = 0.6.0
-RELEASE        = 0
+RELEASE        = 1
 PKGROOT        = /opt/julia
 
 SRC_SUBDIR     = julia
@@ -18,4 +18,5 @@ SOURCE_DIR     = julia-$(VERSION)
 
 TAR_GZ_PKGS    = $(SOURCE_PKG)
 
-RPM.EXTRAS     = AutoReq:No
+RPM.EXTRAS     = AutoReq:No\nAutoProv:No
+RPM.PREFIX     = $(PKGROOT)
