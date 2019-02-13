@@ -85,7 +85,7 @@ LICENSE: $(SRC_DIRS)
 	echo MIT > $@
 
 build: $(SRC_DIRS)
-	patch $(SOURCE_DIR)/Make.inc patch-files/Make.inc.gnu.patch
+	patch $(SOURCE_DIR)/Make.inc patch-files/Make.inc.patch
 	( \
           $(MODULE_LOAD_CMAKE); \
           $(MODULE_LOAD_PYTHON); \
