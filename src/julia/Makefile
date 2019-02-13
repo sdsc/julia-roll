@@ -76,7 +76,6 @@ DESCRIPTION:
 	  $(DESCRIBE_PKG); \
           $(DESCRIBE_PYTHON); \
 	  $(DESCRIBE_CC); \
-          $(DESCRIBE_CMAKE); \
 	  $(DESCRIBE_MKL) \
 	) > $@
 
