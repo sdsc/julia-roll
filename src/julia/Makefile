@@ -60,6 +60,8 @@
 REDHAT.ROOT = $(CURDIR)/../../
 
 ROLLPY = python
+ROLLCOMPILER = gnu
+COMPILERNAME = gnu
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
@@ -74,6 +76,7 @@ DESCRIPTION:
 	  $(DESCRIBE_PKG); \
           $(DESCRIBE_PYTHON); \
 	  $(DESCRIBE_CC); \
+          $(DESCRIBE_CMAKE); \
 	  $(DESCRIBE_MKL) \
 	) > $@
 
@@ -82,17 +85,13 @@ LICENSE: $(SRC_DIRS)
 	echo MIT > $@
 
 build: $(SRC_DIRS)
-	patch $(SOURCE_DIR)/Make.inc patch-files/Make.inc.$(COMPILERNAME).patch
-	patch $(SOURCE_DIR)/deps/llvm.mk patch-files/llvm.mk.patch
-	perl -pi -e "s!SOURCEDIR!$(SOURCE_DIR)!g" $(SOURCE_DIR)/deps/llvm.mk
-	perl -pi -e "s!ROLLPREFIX!$(PWD)!g" $(SOURCE_DIR)/deps/llvm.mk
+	patch $(SOURCE_DIR)/Make.inc patch-files/Make.inc.gnu.patch
 	( \
-          $(call MODULE_LOAD_COMPILER, gnu, gcc); \
+          $(MODULE_LOAD_CMAKE); \
           $(MODULE_LOAD_PYTHON); \
           $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MKL); \
 	  cd $(SOURCE_DIR); \
-          contrib/download_cmake.sh; \
 	  $(MAKE) -j 16 BUILDROOT=$(PWD)/$(SOURCE_DIR); \
 	)
 	@echo "::: Package $(NAME) build complete :::"

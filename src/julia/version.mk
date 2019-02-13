@@ -4,8 +4,8 @@ endif
 COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
 NAME           = sdsc-julia
-VERSION        = 0.6.0
-RELEASE        = 1
+VERSION        = 1.1.0
+RELEASE        = 0
 PKGROOT        = /opt/julia
 
 SRC_SUBDIR     = julia
