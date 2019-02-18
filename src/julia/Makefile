@@ -60,8 +60,6 @@
 REDHAT.ROOT = $(CURDIR)/../../
 
 ROLLPY = python
-ROLLCOMPILER = gnu
-COMPILERNAME = gnu
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
@@ -88,7 +86,7 @@ build: $(SRC_DIRS)
 	( \
           $(MODULE_LOAD_CMAKE); \
           $(MODULE_LOAD_PYTHON); \
-          $(MODULE_LOAD_CC); \
+          $(call MODULE_LOAD_COMPILER, gnu, gcc); \
           $(MODULE_LOAD_MKL); \
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) -j 16 BUILDROOT=$(PWD)/$(SOURCE_DIR); \
