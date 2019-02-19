@@ -31,7 +31,9 @@ and python-roll are available, but it will build without them as long as the
 environment variables they provide are otherwise defined.
 
 The build process requires the MKL libraries and assumes that the MKL
-modulefile provided by the SDSC intel-roll is available.  It will build without
+modulefile provided by the SDSC intelmpi-roll is available 
+(note that previously, the MKL library and the intel compiler were provided
+by the intel-roll).  It will build without
 the modulefile as long as the environment variables it provides are otherwise
 defined.
 
