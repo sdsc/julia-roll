@@ -63,5 +63,5 @@ default:
 
 copyright rpm pkg clean::
 	for i in $(SRCDIRS) ; do \
-	  (cd $$i && $(MAKE) ROLLCOMPILER="$(ROLLCOMPILER)" $@) || exit 2; \
+	  (cd $$i && $(MAKE) $@) || exit 2; \
 	done

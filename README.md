@@ -31,7 +31,9 @@ and python-roll are available, but it will build without them as long as the
 environment variables they provide are otherwise defined.
 
 The build process requires the MKL libraries and assumes that the MKL
-modulefile provided by the SDSC intel-roll is available.  It will build without
+modulefile provided by the SDSC intelmpi-roll is available 
+(note that previously, the MKL library and the intel compiler were provided
+by the intel-roll).  It will build without
 the modulefile as long as the environment variables it provides are otherwise
 defined.
 
@@ -49,20 +51,6 @@ A successful build will create the file `julia-*.disk1.iso`.  If you built
 the roll on a Rocks frontend, proceed to the installation step. If you built the
 roll on a Rocks development appliance, you need to copy the roll to your Rocks
 frontend before continuing with installation.
-
-This roll source supports building with different compilers.
-The `ROLLCOMPILER` make variable can be used to
-specify the name of the compiler modulefile to use for building the
-software, e.g.,
-
-```shell
-make ROLLCOMPILER=intel 2>&1 | tee build.log
-```
-
-The build process recognizes "gnu" or "intel" as the value for the
-`ROLLCOMPILER` variable.  The default value is "gnu".
-
-Note that for verison 0.6.0 , compiling with the intel compiler requires at least version 2016
 
 
 ## Installation
