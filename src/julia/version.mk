@@ -1,6 +1,6 @@
 NAME           = sdsc-julia
-VERSION        = 1.3.1
-RELEASE        = 1
+VERSION        = 1.6.1
+RELEASE        = 0
 PKGROOT        = /opt/julia
 
 SRC_SUBDIR     = julia
